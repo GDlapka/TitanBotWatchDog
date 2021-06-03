@@ -1,0 +1,3 @@
+[submodule "TitanBotWatchDog/TcpServer"]
+	path = TitanBotWatchDog/TcpServer
+	url = https://github.com/GDLapka/TcpServer
