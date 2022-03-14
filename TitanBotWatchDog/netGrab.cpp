@@ -1,6 +1,8 @@
 #define DLL_EXPORT
 #include "netGrab.h"
 
+static const char *pCertFile = "titanbot.cer";
+
 int NetGrabCounter::counter{ 0 };
 
 static size_t curl_writer(char *ptr, size_t size, size_t nmemb, string* data)
@@ -23,8 +25,10 @@ void netGrabSpace(string* resource, string* content) {
 	if (curl_handle)
 	{
 		curl_easy_setopt(curl_handle, CURLOPT_URL, resource->c_str());
-		if (resource->substr(0, 5) == "https") 
-			curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYPEER, TRUE);
+		if (resource->substr(0, 5) == "https") {
+			curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYPEER, 0L);
+			curl_easy_setopt(curl_handle, CURLOPT_CAINFO, pCertFile);
+		}
 		curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, curl_writer);
 		curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, content);
 		curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT, 4);

@@ -17,6 +17,8 @@
 #include "TitanBotLog.h"
 #include "fProcess.h"
 
+#define WD_VERSION L"3.3"
+
 //#define FIRST_TIMER 1
 #define SHORT_TIMER 40000
 #define LONG_TIMER 50000
@@ -399,7 +401,7 @@ void commander(string command, bool async = true) {
 
 void deviceCommander(string command_prefix, string command_suffix, bool async) {
 	int devNum = getDeviceNumber();
-	if (devNum <= 30) return;
+	if (devNum < 2) return;
 	char buf[10] = "";
 	_itoa_s(devNum, buf, 10, 10);
 	string com1 = (command_prefix + buf + command_suffix);
@@ -746,11 +748,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		return 0;
 	}
 
+	wchar_t name[100] = L"TitanBot WatchDog v";
+	wcscat_s(name, (wchar_t*)WD_VERSION);
 	// Step 2: Creating the Window
 	hwnd = CreateWindowEx(
 		WS_EX_CLIENTEDGE,
 		g_szClassName,
-		L"TitanBot WatchDog v3.1beta",
+		name,
 		WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
 		GetSystemMetrics(SM_CXSCREEN) / 2, GetSystemMetrics(SM_CYSCREEN) / 10, 330, 530,
 		NULL, NULL, hInstance, NULL);
